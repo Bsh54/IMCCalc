@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supreme Nutrition</title>
+    <style>
+        :root {
+            --primary: #4a7c59;
+            --primary-light: #8fb996;
+            --secondary: #7c4a6a;
+            --dark: #333;
+            --light: #f8f9fa;
+            --gray: #e1e5eb;
+            --success: #4a7c59;
+            --warning: #e9c46a;
+            --danger: #e76f51;
+            --border-radius: 12px;
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7f9;
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .calculator {
+            padding: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .input-with-unit {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--gray);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.2);
+        }
+
+        .unit {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        button:hover {
+            background: #3d6a4a;
+        }
+
+        .result {
+            padding: 20px;
+            margin-top: 25px;
+            border-radius: var(--border-radius);
+            background: #f8f9fa;
+            text-align: center;
+            display: none;
+        }
+
+        .result.visible {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .bmi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .category {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .recommendation {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--gray);
+        }
+
+        .error {
+            color: var(--danger);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error.visible {
+            display: block;
+        }
+
+        .underweight { color: var(--warning); background: rgba(233, 196, 106, 0.2); }
+        .normal { color: var(--success); background: rgba(74, 124, 89, 0.2); }
+        .overweight { color: var(--warning); background: rgba(233, 196, 106, 0.2); }
+        .obese { color: var(--danger); background: rgba(231, 111, 81, 0.2); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #888;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Supreme Nutrition</h1>
+            <p class="subtitle">Découvrez votre indice de masse corporelle</p>
+        </header>
+        
+        <div class="calculator">
+            <div class="input-group">
+                <label for="height">Taille (m)</label>
+                <div class="input-with-unit">
+                    <input type="number" id="height" placeholder="Ex: 1.75" step="0.01" min="0.5" max="2.5">
+                    <span class="unit">m</span>
+                </div>
+                <div class="error" id="height-error">Veuillez entrer une taille valide (entre 0.5 et 2.5 m)</div>
+            </div>
+            
+            <div class="input-group">
+                <label for="weight">Poids (kg)</label>
+                <div class="input-with-unit">
+                    <input type="number" id="weight" placeholder="Ex: 68.5" step="0.1" min="10" max="300">
+                    <span class="unit">kg</span>
+                </div>
+                <div class="error" id="weight-error">Veuillez entrer un poids valide (entre 10 et 300 kg)</div>
+            </div>
+            
+            <button id="calculate">Calculer mon IMC</button>
+            
+            <div class="result" id="result">
+                <div class="bmi-value" id="bmi-value">--</div>
+                <div class="category" id="category">--</div>
+                <div id="recommendation" class="recommendation"></div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© Supreme Nutrition</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const heightInput = document.getElementById('height');
+            const weightInput = document.getElementById('weight');
+            const calculateButton = document.getElementById('calculate');
+            const resultDiv = document.getElementById('result');
+            const bmiValue = document.getElementById('bmi-value');
+            const category = document.getElementById('category');
+            const recommendation = document.getElementById('recommendation');
+            const heightError = document.getElementById('height-error');
+            const weightError = document.getElementById('weight-error');
+            
+            calculateButton.addEventListener('click', calculateBMI);
+            
+            function calculateBMI() {
+                // Reset errors
+                heightError.classList.remove('visible');
+                weightError.classList.remove('visible');
+                
+                const height = parseFloat(heightInput.value);
+                const weight = parseFloat(weightInput.value);
+                
+                // Validation
+                let isValid = true;
+                
+                if (isNaN(height) || height < 0.5 || height > 2.5) {
+                    heightError.classList.add('visible');
+                    isValid = false;
+                }
+                
+                if (isNaN(weight) || weight < 10 || weight > 300) {
+                    weightError.classList.add('visible');
+                    isValid = false;
+                }
+                
+                if (!isValid) return;
+                
+                // Calculate BMI
+                const bmi = weight / (height * height);
+                const roundedBMI = bmi.toFixed(1);
+                
+                // Display result
+                bmiValue.textContent = roundedBMI;
+                
+                // Determine category and recommendation
+                let categoryText, recommendationText, categoryClass;
+                
+                if (bmi < 18.5) {
+                    categoryText = "Insuffisance pondérale";
+                    categoryClass = "underweight";
+                    const idealMinWeight = (18.5 * (height * height)).toFixed(1);
+                    const weightToGain = (idealMinWeight - weight).toFixed(1);
+                    recommendationText = `Pour un IMC normal, nous vous recommandons de prendre ${weightToGain} kg pour atteindre au moins ${idealMinWeight} kg (la norme).`;
+                } else if (bmi >= 18.5 && bmi < 25) {
+                    categoryText = "Poids normal";
+                    categoryClass = "normal";
+                    recommendationText = "Votre poids est dans la fourchette normale. Maintenez vos habitudes alimentaires saines !";
+                } else if (bmi >= 25 && bmi < 30) {
+                    categoryText = "Surpoids";
+                    categoryClass = "overweight";
+                    const idealMaxWeight = (24.9 * (height * height)).toFixed(1);
+                    const weightToLose = (weight - idealMaxWeight).toFixed(1);
+                    recommendationText = `Pour un IMC normal, nous vous recommandons de perdre <h1> ${weightToLose} kg </h1> pour atteindre ${idealMaxWeight} kg maximum.`;
+                } else {
+                    categoryText = "Obésité";
+                    categoryClass = "obese";
+                    const idealMaxWeight = (24.9 * (height * height)).toFixed(1);
+                    const weightToLose = (weight - idealMaxWeight).toFixed(1);
+                    recommendationText = `Pour un IMC normal, nous vous recommandons de perdre ${weightToLose} kg pour atteindre ${idealMaxWeight} kg maximum. `;
+                }
+                
+                category.textContent = categoryText;
+                category.className = `category ${categoryClass}`;
+                recommendation.textContent = recommendationText;
+                
+                // Show result
+                resultDiv.classList.add('visible');
+            }
+        });
+    </script>
+</body>
+</html>
