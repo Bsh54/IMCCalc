@@ -291,8 +291,20 @@
                     const idealMaxWeight = (24.9 * (height * height)).toFixed(1);
                     const weightToLose = (weight - idealMaxWeight).toFixed(1);
                     recommendationText = `Pour un IMC normal, nous vous recommandons de perdre <h1> ${weightToLose} kg </h1> pour atteindre ${idealMaxWeight} kg maximum.`;
+		} else if (bmi >= 30 && bmi < 35) {
+                    categoryText = "Obésité modérée";
+                    categoryClass = "obese";
+                    const idealMaxWeight = (24.9 * (height * height)).toFixed(1);
+                    const weightToLose = (weight - idealMaxWeight).toFixed(1);
+                    recommendationText = `Pour un IMC normal, nous vous recommandons de perdre <h1> ${weightToLose} kg </h1> pour atteindre ${idealMaxWeight} kg maximum.`;
+                } else if (bmi >= 35 && bmi < 40) {
+                    categoryText = "Obésité sévrere";
+                    categoryClass = "obese";
+                    const idealMaxWeight = (24.9 * (height * height)).toFixed(1);
+                    const weightToLose = (weight - idealMaxWeight).toFixed(1);
+                    recommendationText = `Pour un IMC normal, nous vous recommandons de perdre <h1> ${weightToLose} kg </h1> pour atteindre ${idealMaxWeight} kg maximum.`;
                 } else {
-                    categoryText = "Obésité";
+                    categoryText = "Obésité morbide ";
                     categoryClass = "obese";
                     const idealMaxWeight = (24.9 * (height * height)).toFixed(1);
                     const weightToLose = (weight - idealMaxWeight).toFixed(1);
